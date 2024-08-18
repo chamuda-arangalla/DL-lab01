@@ -9,7 +9,9 @@ from keras.layers import Conv2D, ZeroPadding2D, Activation, Input, concatenate
 from keras.models import Model
 # from keras.layers.normalization import BatchNormalization
 from tensorflow.keras.layers import BatchNormalization
+#from keras.layers.pooling import MaxPooling2D, AveragePooling2D
 from tensorflow.keras.layers import MaxPooling2D, AveragePooling2D
+
 import h5py
 import matplotlib.pyplot as plt
 
@@ -128,17 +130,6 @@ conv_shape = {
   'inception_5b_1x1_conv': [256, 736, 1, 1],
 }
 
-# def load_weights_from_FaceNet(FRmodel):
-#     # Load weights from csv files (which was exported from Openface torch model)
-#     weights = WEIGHTS
-#     weights_dict = load_weights()
-
-#     # Set layer weights of the model
-#     for name in weights:
-#         if FRmodel.get_layer(name) != None:
-#             FRmodel.get_layer(name).set_weights(weights_dict[name])
-#         elif FRmodel.get_layer(name) != None:
-#             FRmodel.get_layer(name).set_weights(weights_dict[name])
 def load_weights_from_FaceNet(FRmodel):
     # Load weights from csv files (which was exported from Openface torch model)
     weights = WEIGHTS
@@ -146,8 +137,10 @@ def load_weights_from_FaceNet(FRmodel):
 
     # Set layer weights of the model
     for name in weights:
-        if name in FRmodel.layers:  # Check if layer exists in YOUR model
+        if FRmodel.get_layer(name) != None:
             FRmodel.get_layer(name).set_weights(weights_dict[name])
+        elif model.get_layer(name) != None:
+            model.get_layer(name).set_weights(weights_dict[name])
 
 def load_weights():
     # Set weights path
