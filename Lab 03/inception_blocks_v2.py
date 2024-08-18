@@ -278,7 +278,8 @@ def faceRecoModel(input_shape):
     
     # L2 normalization
    # X = Lambda(lambda  x: K.l2_normalize(x,axis=1))(X)
-    X = Lambda(lambda x: K.l2_normalize(x, axis=1))(X)
+    # X = Lambda(lambda x: K.l2_normalize(x, axis=1))(X)
+    X = Lambda(lambda x: tf.nn.l2_normalize(x, axis=1), output_shape=lambda input_shape: input_shape)(X)
 
     # Create model instance
     model = Model(inputs = X_input, outputs = X, name='FaceRecoModel')
